@@ -16,26 +16,26 @@ class ApiKeyController extends Controller
     {
         $request->user();
         $apiKeys = PersonalAccessToken::all();
+
         return response()->json($apiKeys);
     }
 
     /**
      * Store a newly created API key.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $request->user();
         $token = $request->user()->createToken($request->input('name'))->plainTextToken;
+
         return response()->json(['token' => $token]);
     }
 
     /**
      * Update the specified API key.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -43,10 +43,11 @@ class ApiKeyController extends Controller
     {
         $request->user();
         $token = PersonalAccessToken::find($id);
-        if (!$token) {
+        if (! $token) {
             return response()->json(['error' => 'Token not found'], 404);
         }
         $token->update($request->all());
+
         return response()->json($token);
     }
 
@@ -60,10 +61,11 @@ class ApiKeyController extends Controller
     {
         $request->user();
         $token = PersonalAccessToken::find($id);
-        if (!$token) {
+        if (! $token) {
             return response()->json(['error' => 'Token not found'], 404);
         }
         $token->delete();
+
         return response()->json(['message' => 'Token deleted successfully']);
     }
 }

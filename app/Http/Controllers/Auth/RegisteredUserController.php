@@ -37,7 +37,7 @@ class RegisteredUserController extends Controller
         if (User::count() > 0) {
             return back()->withErrors(['error' => 'Registration is disabled']);
         }
-        
+
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\Request;
 
 class MmdbDownloadController extends Controller
 {
@@ -70,7 +70,7 @@ class MmdbDownloadController extends Controller
 
         $filePath = "mmdb/{$type}.tar.gz";
 
-        if (!Storage::exists($filePath)) {
+        if (! Storage::exists($filePath)) {
             return response()->json(['error' => 'File not found'], 404);
         }
 
