@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
@@ -9,93 +8,88 @@ use Inertia\Inertia;
 
 class PersonalAccessTokensController extends Controller
 {
-    /**
-     * Display a listing of the user's personal access tokens.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $tokens = Auth::user()->tokens;
-
+        
+        // Get any flash messages from the session
+        $flash = session()->get('flash', []);
+        
         return Inertia::render('settings/tokens', [
             'tokens' => $tokens,
+            // Include flash messages in the initial props
+            'flash' => $flash,
         ]);
     }
-
-    /**
-     * Store a newly created personal access token.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
             'permissions' => 'required|array',
         ]);
-
-        $token = Auth::user()->createToken($request->input('name'), $request->input('permissions'))->plainTextToken;
-
-        return response()->json(['token' => $token], 201);
+    
+        $token = Auth::user()->createToken(
+            $request->input('name'), 
+            $request->input('permissions')
+        )->plainTextToken;
+    
+        return redirect()->back()->with([
+            'flash' => [  // Wrap in 'flash' key
+                'message' => 'Token created successfully.',
+                'newToken' => [
+                    'token' => $token,
+                    'name' => $request->input('name')
+                ]
+            ]
+        ]);
     }
-
-    /**
-     * Display the specified personal access token.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($token)
+    
+    // Similarly update your other methods (regenerate, destroy):
+    public function regenerate(Request $request, $id)
     {
-        // 
-    }
-
-    /**
-     * Revoke the specified personal access token.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function revoke($token)
-    {
-        Auth::user()->tokens()->where('id', $token->id)->delete();
-
-        return response()->json([], 200);
-    }
-
-    /**
-     * Regenerate the specified personal access token.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function regenerate(Request $request, $token)
-    {
-        $token = Auth::user()->tokens()->find($token);
-
+        $token = Auth::user()->tokens()->find($id);
         if (!$token) {
-            return response()->json(['error' => 'Token not found'], 404);
+            return redirect()->back()->with([
+                'flash' => [
+                    'error' => 'Token not found'
+                ]
+            ]);
         }
-
+    
         $token->delete();
-
-        $newToken = Auth::user()->createToken($request->input('name'), $request->input('permissions'))->plainTextToken;
-
-        return response()->json(['token' => $newToken], 200);
+        $newToken = Auth::user()->createToken(
+            $token->name, 
+            $request->input('permissions', ['*'])
+        )->plainTextToken;
+    
+        return redirect()->back()->with([
+            'flash' => [
+                'message' => 'Token regenerated successfully',
+                'newToken' => [
+                    'token' => $newToken,
+                    'name' => $token->name
+                ]
+            ]
+        ]);
     }
-
-    /**
-     * Remove the specified personal access token.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($token)
+    
+    public function destroy($id)
     {
-        Auth::user()->tokens()->where('id', $token->id)->delete();
-
-        return response()->json([], 200);
+        $token = Auth::user()->tokens()->find($id);
+        if (!$token) {
+            return redirect()->back()->with([
+                'flash' => [
+                    'error' => 'Token not found'
+                ]
+            ]);
+        }
+    
+        $token->delete();
+        return redirect()->back()->with([
+            'flash' => [
+                'message' => 'Token deleted successfully'
+            ]
+        ]);
     }
 }

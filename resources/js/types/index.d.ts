@@ -41,3 +41,25 @@ export interface User {
     updated_at: string;
     [key: string]: unknown; // This allows for additional properties...
 }
+
+export interface UserToken {
+    id: number;
+    name: string;
+    token: string;
+    last_used_at: string | null;
+    created_at: string;
+    updated_at: string;
+    [key: string]: unknown; // This allows for additional properties...
+}
+
+export interface UserTokenForm {
+    name: string;
+    permissions: string[];
+}
+
+export interface UserTokenFlash {
+    message?: string;
+    error?: string;
+    newToken?: UserToken;
+    [key: string]: unknown; // This allows for additional properties...
+}
