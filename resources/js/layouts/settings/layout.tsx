@@ -27,7 +27,7 @@ const sidebarNavItems: NavItem[] = [
         title: 'Personal Access Tokens',
         href: '/settings/tokens',
         icon: null,
-    }
+    },
 ];
 
 export default function SettingsLayout({ children }: PropsWithChildren) {

@@ -15,7 +15,7 @@ export default function Dashboard() {
             <Head title="Dashboard" />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
                 <div className="border-sidebar-border/70 dark:border-sidebar-border relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border md:min-h-min">
-                    <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-xl text-center font-bold text-4xl">
+                    <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-xl text-center text-4xl font-bold">
                         MMDB-SYNC
                     </div>
                 </div>
