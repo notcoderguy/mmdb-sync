@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\ApiKeyController;
 use App\Http\Controllers\MmdbDownloadController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
