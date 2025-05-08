@@ -32,7 +32,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->api(append: [
             SubstituteBindings::class,
-            'throttle:api',
+            'throttle:100,1',
             EnsureFrontendRequestsAreStateful::class,
         ]);
     })

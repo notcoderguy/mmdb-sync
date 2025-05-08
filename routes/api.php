@@ -10,14 +10,8 @@ Route::get('/mmdb/download/{type}', function (Request $request) {
     $type = $request->route('type');
 
     try {
-        $controller->downloadFile($request, $type);
-
-        return response()->json(['message' => 'File downloaded successfully'], 200);
+        return $controller->downloadFile($request, $type);
     } catch (\Exception $e) {
         return response()->json(['error' => $e->getMessage()], 500);
     }
-})->middleware('auth:sanctum');
-
-Route::middleware('auth:sanctum')->group(function () {
-    Route::apiResource('api-keys', ApiKeyController::class);
 });

@@ -96,18 +96,33 @@ export default function Token() {
                         </Button>
                     </form>
 
-                    {/* Display New Token */}
-                    {newToken && (
-                        <div className="bg-success/10 border-success rounded border p-4">
-                            <p className="text-success text-sm">
-                                Your new token: <span className="font-mono">{newToken.token}</span>
-                            </p>
-                            <p className="text-success text-sm">
-                                Token Name: <span className="font-mono">{newToken.name}</span>
-                            </p>
-                            <p className="text-success mt-2 text-xs">Make sure to copy your new token now. You won't be able to see it again!</p>
-                        </div>
-                    )}
+{/* Display New Token */}
+{newToken && (
+    <div className="bg-success/10 border-success rounded border p-4">
+        <div className="flex items-center justify-between">
+            <p className="text-success text-sm">
+                Your new token: <span className="font-mono">{newToken.token}</span>
+            </p>
+            <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                    navigator.clipboard.writeText(newToken.token);
+                    toast.success('Token copied to clipboard!');
+                }}
+                className="ml-4"
+            >
+                Copy
+            </Button>
+        </div>
+        <p className="text-success text-sm mt-2">
+            Token Name: <span className="font-mono">{newToken.name}</span>
+        </p>
+        <p className="text-success mt-2 text-xs">
+            Make sure to copy your new token now. You won't be able to see it again!
+        </p>
+    </div>
+)}
 
                     {/* Token List */}
                     <div className="space-y-4">
