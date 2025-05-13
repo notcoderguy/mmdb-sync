@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  mmdb-sync-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - GEOIP_MAXMIND_LICENSE_KEY=${GEOIP_MAXMIND_LICENSE_KEY}
+      - DATABASE_LOCATION=${DATABASE_LOCATION}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/up"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
+    volumes:
+      - ${DATABASE_LOCATION}:/var/www/html/storage/db
