@@ -74,10 +74,13 @@ class MmdbDownloadController extends Controller
             return response()->json(['error' => 'File not found'], 404);
         }
 
-        return response()->streamDownload(function () use ($filePath) {
-            $stream = Storage::readStream($filePath);
-            fpassthru($stream);
-            fclose($stream);
-        }, "{$type}.tar.gz");
+        return response()->download(
+            Storage::path($filePath),
+            "{$type}.tar.gz",
+            [
+                'Content-Type' => 'application/gzip',
+                'Content-Disposition' => 'attachment; filename="' . $type . '.tar.gz"',
+            ]
+        );
     }
 }
