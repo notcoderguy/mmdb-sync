@@ -55,7 +55,7 @@ class MmdbDownloadController extends Controller
 
             return true;
         } catch (\Exception $e) {
-            throw new \RuntimeException("Failed to process {$type} database: " . $e->getMessage());
+            throw new \RuntimeException("Failed to process {$type} database: ".$e->getMessage());
         } finally {
             if (file_exists($tempFile)) {
                 unlink($tempFile);
@@ -79,7 +79,7 @@ class MmdbDownloadController extends Controller
             "{$type}.tar.gz",
             [
                 'Content-Type' => 'application/gzip',
-                'Content-Disposition' => 'attachment; filename="' . $type . '.tar.gz"',
+                'Content-Disposition' => 'attachment; filename="'.$type.'.tar.gz"',
             ]
         );
     }
