@@ -7,7 +7,6 @@ if [ ! -f storage/db/database.sqlite ]; then
     sudo touch storage/db/database.sqlite
     sudo chown -R www-data:www-data storage/db
     php artisan migrate:fresh --force
-    php artisan db:seed --force
 fi
 
 php artisan app:pull:mmdb &
