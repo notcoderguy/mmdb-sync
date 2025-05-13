@@ -56,7 +56,7 @@ export default function Dashboard(props: PageProps) {
                 <div className="border-sidebar-border/70 dark:border-sidebar-border relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border md:min-h-min">
                     <div className="absolute inset-0 flex flex-col items-center justify-center overflow-hidden rounded-xl text-center text-4xl font-bold">
                         MMDB-SYNC
-                        <div className="flex justify-end text-sm mt-4">
+                        <div className="mt-4 flex justify-end text-sm">
                             <button
                                 onClick={handleUpdate}
                                 className="bg-primary text-primary-foreground hover:bg-primary/90 disabled:bg-primary/50 flex items-center gap-2 rounded px-4 py-2 transition-all duration-200 hover:cursor-pointer"
