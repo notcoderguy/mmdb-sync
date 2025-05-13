@@ -35,16 +35,6 @@ export default function Dashboard(props: PageProps) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-                <div className="flex justify-end">
-                    <button
-                        onClick={handleUpdate}
-                        className="bg-primary text-primary-foreground hover:bg-primary/90 disabled:bg-primary/50 flex items-center gap-2 rounded px-4 py-2 transition-all duration-200 hover:cursor-pointer"
-                        disabled={processing}
-                    >
-                        {processing ? 'Updating...' : 'Update Databases'}
-                        <span className="material-icons"></span>
-                    </button>
-                </div>
                 <div className="grid auto-rows-min gap-4 md:grid-cols-3">
                     {props.downloadLinks.map((link) => (
                         <div
@@ -64,8 +54,17 @@ export default function Dashboard(props: PageProps) {
                     ))}
                 </div>
                 <div className="border-sidebar-border/70 dark:border-sidebar-border relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border md:min-h-min">
-                    <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-xl text-center text-4xl font-bold">
+                    <div className="absolute inset-0 flex flex-col items-center justify-center overflow-hidden rounded-xl text-center text-4xl font-bold">
                         MMDB-SYNC
+                        <div className="flex justify-end text-sm mt-4">
+                            <button
+                                onClick={handleUpdate}
+                                className="bg-primary text-primary-foreground hover:bg-primary/90 disabled:bg-primary/50 flex items-center gap-2 rounded px-4 py-2 transition-all duration-200 hover:cursor-pointer"
+                                disabled={processing}
+                            >
+                                {processing ? 'Updating...' : 'Update Databases'}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
