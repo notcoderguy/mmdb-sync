@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
@@ -36,9 +36,10 @@ class DashboardController extends Controller
     {
         try {
             Artisan::call('app:pull:mmdb');
+
             return redirect()->back()->with('success', 'Databases updated successfully!');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Failed to update databases: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to update databases: '.$e->getMessage());
         }
     }
 }

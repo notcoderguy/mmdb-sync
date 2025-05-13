@@ -2,9 +2,9 @@
 
 use App\Http\Controllers\MmdbDownloadController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Artisan;
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/mmdb/download/{type}', function (Request $request) {
@@ -37,6 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/mmdb/update', function () {
         Artisan::call('app:pull:mmdb');
+
         return response()->json(['message' => 'Databases updated successfully']);
     });
 });
