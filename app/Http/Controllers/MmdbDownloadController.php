@@ -55,7 +55,7 @@ class MmdbDownloadController extends Controller
 
             return true;
         } catch (\Exception $e) {
-            throw new \RuntimeException("Failed to process {$type} database: ".$e->getMessage());
+            throw new \RuntimeException("Failed to process {$type} database: " . $e->getMessage());
         } finally {
             if (file_exists($tempFile)) {
                 unlink($tempFile);
@@ -75,7 +75,9 @@ class MmdbDownloadController extends Controller
         }
 
         return response()->streamDownload(function () use ($filePath) {
-            echo Storage::get($filePath);
+            $stream = Storage::readStream($filePath);
+            fpassthru($stream);
+            fclose($stream);
         }, "{$type}.tar.gz");
     }
 }
