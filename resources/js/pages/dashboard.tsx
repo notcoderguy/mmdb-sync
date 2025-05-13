@@ -1,6 +1,6 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
+import { Head, useForm } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -9,22 +9,47 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function Dashboard() {
-    const downloadLinks = [
-        { type: 'asn', label: 'ASN Database' },
-        { type: 'country', label: 'Country Database' },
-        { type: 'city', label: 'City Database' },
-    ];
+type PageProps = {
+    downloadLinks: {
+        type: string;
+        label: string;
+    }[];
+    lastModifiedDates: { [key: string]: string | null };
+};
+
+export default function Dashboard(props: PageProps) {
+    const { post, processing } = useForm();
+
+    const handleUpdate = () => {
+        post('/dashboard/update', {
+            onSuccess: () => {
+                alert('Databases updated successfully!');
+            },
+            onError: () => {
+                alert('Failed to update databases.');
+            },
+        });
+    };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
+                <div className="flex justify-end">
+                    <button
+                        onClick={handleUpdate}
+                        className="flex items-center gap-2 rounded bg-primary px-4 py-2 text-primary-foreground hover:bg-primary/90 disabled:bg-primary/50 transition-all duration-200 hover:cursor-pointer"
+                        disabled={processing}
+                    >
+                        {processing ? 'Updating...' : 'Update Databases'}
+                        <span className="material-icons"></span>
+                    </button>
+                </div>
                 <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                    {downloadLinks.map((link) => (
+                    {props.downloadLinks.map((link) => (
                         <div
                             key={link.type}
-                            className="border-sidebar-border/70 dark:border-sidebar-border relative aspect-video overflow-hidden rounded-xl border flex items-center justify-center"
+                            className="border-sidebar-border/70 dark:border-sidebar-border relative aspect-video overflow-hidden rounded-xl border flex flex-col items-center justify-center p-4"
                         >
                             <a
                                 href={`/api/mmdb/download/${link.type}`}
@@ -34,6 +59,9 @@ export default function Dashboard() {
                             >
                                 {link.label}
                             </a>
+                            <p className="mt-2 text-sm text-gray-500">
+                                Last Modified: {props.lastModifiedDates[link.type] || 'Not Available'}
+                            </p>
                         </div>
                     ))}
                 </div>
