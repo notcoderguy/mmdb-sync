@@ -47,7 +47,7 @@ export default function Dashboard(props: PageProps) {
                                 className="decoration-sidebar-primary/70 hover:decoration-sidebar-primary/100 dark:decoration-sidebar-primary/70 dark:hover:decoration-sidebar-primary/100 text-center text-lg font-semibold underline decoration-dashed transition-all duration-200"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                onClick={e => !link.url && e.preventDefault()}
+                                onClick={(e) => !link.url && e.preventDefault()}
                             >
                                 {link.label}
                             </a>

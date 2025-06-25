@@ -27,8 +27,8 @@ class DashboardController extends Controller
             $path = "mmdb/{$type}.tar.gz";
             $downloadLinks[] = [
                 'type' => $type,
-                'label' => ucfirst($type) . ' Database',
-                'url' => Storage::exists($path) 
+                'label' => ucfirst($type).' Database',
+                'url' => Storage::exists($path)
                     ? Storage::temporaryUrl(
                         $path,
                         now()->addMinutes(30),
@@ -37,7 +37,7 @@ class DashboardController extends Controller
                             'ResponseContentDisposition' => 'attachment; filename="'.$type.'.tar.gz"',
                         ]
                     )
-                    : null
+                    : null,
             ];
         }
 

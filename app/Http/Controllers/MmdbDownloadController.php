@@ -103,7 +103,7 @@ class MmdbDownloadController extends Controller
                     'ResponseContentType' => 'application/gzip',
                     'ResponseContentDisposition' => 'attachment; filename="'.$type.'.tar.gz"',
                 ]
-            )
+            ),
         ]);
     }
 }
