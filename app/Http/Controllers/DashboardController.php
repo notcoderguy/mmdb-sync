@@ -22,12 +22,27 @@ class DashboardController extends Controller
             }
         }
 
+        $downloadLinks = [];
+        foreach (['asn', 'country', 'city'] as $type) {
+            $path = "mmdb/{$type}.tar.gz";
+            $downloadLinks[] = [
+                'type' => $type,
+                'label' => ucfirst($type) . ' Database',
+                'url' => Storage::exists($path) 
+                    ? Storage::temporaryUrl(
+                        $path,
+                        now()->addMinutes(30),
+                        [
+                            'ResponseContentType' => 'application/gzip',
+                            'ResponseContentDisposition' => 'attachment; filename="'.$type.'.tar.gz"',
+                        ]
+                    )
+                    : null
+            ];
+        }
+
         return Inertia::render('dashboard', [
-            'downloadLinks' => [
-                ['type' => 'asn', 'label' => 'ASN Database'],
-                ['type' => 'country', 'label' => 'Country Database'],
-                ['type' => 'city', 'label' => 'City Database'],
-            ],
+            'downloadLinks' => $downloadLinks,
             'lastModifiedDates' => $lastModifiedDates,
         ]);
     }

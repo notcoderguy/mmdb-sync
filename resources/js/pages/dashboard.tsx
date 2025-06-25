@@ -13,6 +13,7 @@ type PageProps = {
     downloadLinks: {
         type: string;
         label: string;
+        url: string | null;
     }[];
     lastModifiedDates: { [key: string]: string | null };
 };
@@ -42,10 +43,11 @@ export default function Dashboard(props: PageProps) {
                             className="border-sidebar-border/70 dark:border-sidebar-border relative flex aspect-video flex-col items-center justify-center overflow-hidden rounded-xl border p-4"
                         >
                             <a
-                                href={`/api/mmdb/download/${link.type}`}
+                                href={link.url || '#'}
                                 className="decoration-sidebar-primary/70 hover:decoration-sidebar-primary/100 dark:decoration-sidebar-primary/70 dark:hover:decoration-sidebar-primary/100 text-center text-lg font-semibold underline decoration-dashed transition-all duration-200"
                                 target="_blank"
                                 rel="noopener noreferrer"
+                                onClick={e => !link.url && e.preventDefault()}
                             >
                                 {link.label}
                             </a>

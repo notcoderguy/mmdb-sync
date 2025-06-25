@@ -21,11 +21,6 @@ const footerNavItems: NavItem[] = [
         href: 'https://github.com/notcoderguy/mmdb-sync',
         icon: Folder,
     },
-    {
-        title: 'Documentation',
-        href: 'https://docs.notcoderguy.com/mmdb-sync',
-        icon: BookOpen,
-    },
 ];
 
 export function AppSidebar() {

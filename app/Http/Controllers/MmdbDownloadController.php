@@ -83,4 +83,27 @@ class MmdbDownloadController extends Controller
             ]
         );
     }
+
+    public function getSignedDownloadUrl(Request $request, string $type)
+    {
+        // Ensure the user is authenticated via Sanctum
+        $request->user();
+
+        $filePath = "mmdb/{$type}.tar.gz";
+
+        if (! Storage::exists($filePath)) {
+            return response()->json(['error' => 'File not found'], 404);
+        }
+
+        return response()->json([
+            'url' => Storage::temporaryUrl(
+                $filePath,
+                now()->addMinutes(30),
+                [
+                    'ResponseContentType' => 'application/gzip',
+                    'ResponseContentDisposition' => 'attachment; filename="'.$type.'.tar.gz"',
+                ]
+            )
+        ]);
+    }
 }
